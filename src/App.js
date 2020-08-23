@@ -79,7 +79,7 @@ function App() {
     .then((authUser) => {
       return authUser.user.updateProfile({
         displayName: username
-      })
+      });
     })
     .catch((error) => alert(error.message));
 
@@ -109,7 +109,7 @@ function App() {
                 className="app__headerImage"
                 src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
                 alt=""
-              />
+              /><br />
               <Input
                 type="text"
                 placeholder="username"
@@ -127,7 +127,7 @@ function App() {
                 placeholder="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
+              /><br />
               <Button type="submit" onClick={signUp}>Sign Up</Button>
             </center>
           </form>
@@ -146,6 +146,7 @@ function App() {
                 src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
                 alt=""
               />
+              <br/>
               <Input
                 type="text"
                 placeholder="email"
@@ -157,7 +158,7 @@ function App() {
                 placeholder="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
+              /><br />
               <Button type="submit" onClick={signIn}>Sign In</Button>
             </center>
           </form>
@@ -171,14 +172,20 @@ function App() {
         />
         {user ? (
           <Button onClick={() => auth.signOut()}>Logout</Button>
-        ): (
-        <div className="app__loginContainer">
-          <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
-          <Button onClick={() => setOpen(true)}>Sign Up</Button>
-        </div>
-      )}
+          ): (
+          <div className="app__loginContainer">
+            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+            <Button onClick={() => setOpen(true)}>Sign Up</Button>
+          </div>
+        )}
       </div>
+      
       <div className="app__posts">
+          {user?.displayName ? (
+            <ImageUpload username={user.displayName} />
+            ):(
+            <h3>Sorry! You need to Login to Upload Image</h3>
+          )}
         <div className="app__postsLeft">
           {
             posts.map(({id, post}) => (
@@ -200,15 +207,7 @@ function App() {
             onFailure={() => {}}
           />
         </div>
-        
       </div>
-      
-      
-      {user?.displayName ? (
-        <ImageUpload username={user.displayName} />
-      ): (
-        <h3>Sorry! You need to Login to Upload Image</h3>
-      )}
     </div>
   
   );
